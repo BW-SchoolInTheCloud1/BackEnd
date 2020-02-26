@@ -1,5 +1,4 @@
 # BackEnd
-school in the cloud back end
 Trello:  https://trello.com/b/YFxFQxmN/school-in-the-cloud-1
 
 ## School in the Cloud
