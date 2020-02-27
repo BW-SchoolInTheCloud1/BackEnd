@@ -20,46 +20,55 @@ router.post("/register", validateUser, async (req, res, next) => {
   };
 
   try {
-    let saved = await Users.addUser(userObj);
-
+    // add new user to the db
+    let newUser = await Users.addUser(userObj);
+    // create variables to save new user info for response
     let roleInfo, userRole;
-    if (saved.role === "volunteer") {
+    // check new users role - add additional info for volunteers
+    if (newUser.role === "volunteer") {
       roleInfo = {
-        user_id: saved.id,
+        user_id: newUser.id,
         availability: req.body.availability,
         country: req.body.country
       };
-      userRole = await Users.addUserByType(roleInfo, saved.role);
+      userRole = await Users.addUserByType(roleInfo, newUser.role);
     } else {
-      roleInfo = { user_id: saved.id };
-      userRole = await Users.addUserByType(roleInfo, saved.role);
+      // add user_id to respective role table for foreign key requirement
+      roleInfo = { user_id: newUser.id };
+      userRole = await Users.addUserByType(roleInfo, newUser.role);
     }
-    const token = genToken(saved);
+    const token = genToken(newUser);
     res
       .status(201)
-      .json({ createdUser: saved, userRole: userRole, token: token });
+      .json({ createdUser: newUser, roleId: userRole, token: token });
   } catch (error) {
     res.status(500).json(error.message);
   }
 });
 
 // user login
-router.post("/login", async (req, res) => {
-  if (!req.body || !req.body.password || !req.body.email || !req.body.role) {
-    res
-      .status(400)
-      .json("A valid email, password, and role type are required.");
+router.post("/login", async (req, res, next) => {
+  if (!req.body || !req.body.password || !req.body.email) {
+    next("A valid email and password are required.");
   } else {
-    let { username, password } = req.body;
+    let { email, password } = req.body;
 
-    Users.findBy({ username })
-      .first()
+    Users.findBy({ email })
       .then(user => {
         if (user && bcrypt.compareSync(password, user.password)) {
-          const token = genToken(user);
-          res.status(200).json({ username: user.username, token: token });
+          Users.findTypeById(user.id, user.role)
+            .then(roleInfo => {
+              const token = genToken(user);
+              res
+                .status(200)
+                .json({ user: user, roleId: roleInfo, token: token });
+            })
+            .catch(error => {
+              console.log(error);
+              res.status(500).json(error.message);
+            });
         } else {
-          res.status(401).json({ message: "Invalid Credentials" });
+          res.status(401).json({ message: "Invalid Login Credentials" });
         }
       })
       .catch(error => {
