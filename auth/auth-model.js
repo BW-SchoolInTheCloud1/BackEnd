@@ -5,7 +5,9 @@ module.exports = {
   addUserByType,
   find,
   findBy,
-  findById
+  findById,
+  findTypeBy,
+  findTypeById
 };
 
 function find() {
@@ -21,7 +23,19 @@ function findById(id) {
 function findBy(filter) {
   return db("users")
     .where(filter)
-    .select("id", "username", "password");
+    .first();
+}
+
+function findTypeBy(filter, type) {
+  return db(type)
+    .where(filter)
+    .first();
+}
+
+function findTypeById(id, type) {
+  return db(type)
+    .where({ user_id: id })
+    .first();
 }
 
 async function addUser(user) {
@@ -32,7 +46,6 @@ async function addUser(user) {
 
 async function addUserByType(user, type) {
   const [id] = await db(type).insert(user);
-  return db(type)
-    .where({ id })
-    .first();
+
+  return findTypeById(id);
 }
