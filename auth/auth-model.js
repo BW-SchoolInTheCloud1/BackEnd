@@ -50,17 +50,30 @@ async function addUser(user) {
 //   return db("users").insert(user);
 // }
 
-async function addAdmin(user) {
+// async function addAdmin(user) {
+//   console.log(user);
+//   const [id] = await db("admin")
+//     .insert(user)
+//     .returning("id");
+
+//   console.log("id", id);
+
+//   return db("admin")
+//     .where({ id })
+//     .first();
+// }
+
+function addAdmin(user) {
   console.log(user);
-  const [id] = await db("admin")
-    .insert(user)
-    .returning("id");
-
-  console.log("id", id);
-
   return db("admin")
-    .where({ id })
-    .first();
+    .insert(user)
+    .returning(["id"]);
+
+  // console.log("id", id);
+
+  // return db("admin")
+  //   .where({ id })
+  //   .first();
 }
 
 async function addVolunteer(user) {
