@@ -34,7 +34,7 @@ function findTypeBy(filter, type) {
 
 function findTypeById(id, type) {
   return db(type)
-    .where({ user_id: id })
+    .where({ id })
     .first();
 }
 
@@ -50,7 +50,9 @@ async function addUser(user) {
 
 async function addUserByType(user, type) {
   console.log(type);
-  const [id] = await db(type).insert(user);
+  const [id] = await db(type)
+    .insert(user)
+    .returning("id");
 
   console.log("id", id);
 
