@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const Users = require("./auth-model");
 const secret = process.env.JWT_SECRET || "secret secret, i got a secret";
-console.log(secret);
+
 // /api/auth
 
 // user registration
@@ -39,6 +39,7 @@ router.post("/register", validateUser, async (req, res, next) => {
       roleInfo = { user_id: newUser.id };
       userRole = await Users.addUserByType(roleInfo, newUser.role);
     }
+    console.log("auth router userRole", userRole);
     const token = genToken(newUser);
     res
       .status(201)
