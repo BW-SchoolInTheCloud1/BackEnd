@@ -38,18 +38,21 @@ function findTypeById(id, type) {
     .first();
 }
 
-// async function addUser(user) {
-//   const [id] = await db("users").insert(user);
+async function addUser(user) {
+  const [id] = await db("users")
+    .insert(user)
+    .select("id");
 
-//   return findById(id);
-// }
-
-function addUser(user) {
-  return db("users").insert(user);
+  return findById(id);
 }
 
-async function addUserByType(user, type) {
-  const [id] = await db(type).insert(user);
+// function addUser(user) {
+//   return db("users").insert(user);
+// }
 
-  return findTypeById(id);
+async function addUserByType(user, type) {
+  console.log(type);
+  const [id] = await db("student").insert(user);
+
+  return findTypeById(id, type);
 }
