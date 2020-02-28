@@ -39,9 +39,10 @@ function findTypeById(id, type) {
 }
 
 async function addUser(user) {
+
   const [id] = await db("users")
     .insert(user)
-    .select("id");
+    .select("id"); 
 
   return findById(id);
 }
@@ -52,7 +53,7 @@ async function addUser(user) {
 
 async function addUserByType(user, type) {
   console.log(type);
-  const [id] = await db("student").insert(user);
+  const [id] = await db(type).insert(user);
 
   return findTypeById(id, type);
 }
