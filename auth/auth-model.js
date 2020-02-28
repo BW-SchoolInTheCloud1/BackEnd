@@ -2,7 +2,9 @@ const db = require("../database/dbConfig");
 
 module.exports = {
   addUser,
-  addUserByType,
+  addAdmin,
+  addVolunteer,
+  addStudent,
   find,
   findBy,
   findById,
@@ -48,15 +50,41 @@ async function addUser(user) {
 //   return db("users").insert(user);
 // }
 
-async function addUserByType(user, type) {
-  console.log(type);
-  const [id] = await db(type)
+async function addAdmin(user) {
+  console.log(user);
+  const [id] = await db("admin")
     .insert(user)
     .returning("id");
 
   console.log("id", id);
 
-  return db(type)
+  return db("admin")
+    .where({ id })
+    .first();
+}
+
+async function addVolunteer(user) {
+  console.log(user);
+  const [id] = await db("volunteer")
+    .insert(user)
+    .returning("id");
+
+  console.log("id", id);
+
+  return db("volunteer")
+    .where({ id })
+    .first();
+}
+
+async function addStudent(user) {
+  console.log(user);
+  const [id] = await db("student")
+    .insert(user)
+    .returning("id");
+
+  console.log("id", id);
+
+  return db("student")
     .where({ id })
     .first();
 }

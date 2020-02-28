@@ -33,11 +33,14 @@ router.post("/register", validateUser, async (req, res, next) => {
         availability: req.body.availability,
         country: req.body.country
       };
-      userRole = await Users.addUserByType(roleInfo, newUser.role);
-    } else {
+      userRole = await Users.addVolunteer(roleInfo);
+    } else if (newUser.role === "admin") {
       // add user_id to respective role table for foreign key requirement
       roleInfo = { user_id: newUser.id };
-      userRole = await Users.addUserByType(roleInfo, newUser.role);
+      userRole = await Users.addAdmin(roleInfo);
+    } else if (newUser.role === "student") {
+      roleInfo = { user_id: newUser.id };
+      userRole = await Users.addStudent(roleInfo);
     }
     console.log("auth router userRole", userRole);
     const token = genToken(newUser);
