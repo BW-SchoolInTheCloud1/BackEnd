@@ -1,10 +1,11 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const Users = require("./auth-model");
 const secret = process.env.JWT_SECRET || "secret secret, i got a secret";
-
+console.log(secret);
 // /api/auth
 
 // user registration
