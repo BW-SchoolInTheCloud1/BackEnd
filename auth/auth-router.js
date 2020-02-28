@@ -23,6 +23,7 @@ router.post("/register", validateUser, async (req, res, next) => {
   try {
     // add new user to the db
     let newUser = await Users.addUser(userObj);
+    console.log(newUser);
     // create variables to save new user info for response
     let roleInfo, userRole;
     // check new users role - add additional info for volunteers

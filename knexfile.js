@@ -6,8 +6,7 @@ module.exports = {
     connection: { filename: "./database/db_school.db3" },
     useNullAsDefault: true,
     migrations: {
-      directory: "./database/migrations",
-      tableName: "db_migrations"
+      directory: "./database/migrations"
     },
     seeds: { directory: "./database/seeds" },
     pool: {
