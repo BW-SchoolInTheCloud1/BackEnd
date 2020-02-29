@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
       next("A valid email address is required");
     } else if (!password || !password.length > 4) {
       next("A valid password with at least 5 characters is required");
-    } else if (!firstName || !lastName) {
+    } else if (!first_name || !last_name) {
       next("First and Last name are required");
     } else if (
       String(
@@ -27,7 +27,8 @@ module.exports = (req, res, next) => {
       next("A role type of either admin, volunteer, or student is required");
     } else if (
       String(role.toLowercase()) === "volunteer" &&
-      !availability && !country
+      !availability &&
+      !country
     ) {
       next("Volunteers must provide their time availability and country");
     }
