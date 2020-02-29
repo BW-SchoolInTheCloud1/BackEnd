@@ -29,7 +29,7 @@ async function addTodo(todo) {
     description: todo.description,
     is_completed: todo.is_completed || false,
     admin_id: todo.admin_id,
-    volunteer_id: volunteer_id
+    volunteer_id: todo.volunteer_id
   };
   const [id] = await db("todos").insert(newTodo);
   return findById(id);
