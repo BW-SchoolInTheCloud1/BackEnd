@@ -46,10 +46,6 @@ async function addUser(user) {
   return findById(id);
 }
 
-// function addUser(user) {
-//   return db("users").insert(user);
-// }
-
 async function addAdmin(user) {
   console.log(user);
   const [id] = await db("admin")
@@ -64,19 +60,6 @@ async function addAdmin(user) {
 
   return admin;
 }
-
-// function addAdmin(user) {
-//   console.log(user);
-//   return db("admin")
-//     .insert(user)
-//     .returning(["id"]);
-
-//   console.log("id", id);
-
-//   return db("admin")
-//     .where({ id })
-//     .first();
-// }
 
 async function addVolunteer(user) {
   console.log(user);
