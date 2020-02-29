@@ -50,11 +50,26 @@ async function addUser(user) {
 //   return db("users").insert(user);
 // }
 
-// async function addAdmin(user) {
+async function addAdmin(user) {
+  console.log(user);
+  const [id] = await db("admin")
+    .insert(user)
+    .returning("id");
+
+  console.log("id", id);
+  const admin = await db("admin")
+    .select("*")
+    .where({ id })
+    .first();
+
+  return admin;
+}
+
+// function addAdmin(user) {
 //   console.log(user);
-//   const [id] = await db("admin")
+//   return db("admin")
 //     .insert(user)
-//     .returning("id");
+//     .returning(["id"]);
 
 //   console.log("id", id);
 
@@ -63,19 +78,6 @@ async function addUser(user) {
 //     .first();
 // }
 
-function addAdmin(user) {
-  console.log(user);
-  return db("admin")
-    .insert(user)
-    .returning(["id"]);
-
-  // console.log("id", id);
-
-  // return db("admin")
-  //   .where({ id })
-  //   .first();
-}
-
 async function addVolunteer(user) {
   console.log(user);
   const [id] = await db("volunteer")
@@ -83,10 +85,12 @@ async function addVolunteer(user) {
     .returning("id");
 
   console.log("id", id);
-
-  return db("volunteer")
+  const volunteer = await db("volunteer")
+    .select("*")
     .where({ id })
     .first();
+
+  return volunteer;
 }
 
 async function addStudent(user) {
@@ -97,7 +101,10 @@ async function addStudent(user) {
 
   console.log("id", id);
 
-  return db("student")
+  const student = await db("student")
+    .select("*")
     .where({ id })
     .first();
+
+  return student;
 }
