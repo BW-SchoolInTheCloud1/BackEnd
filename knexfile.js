@@ -27,7 +27,7 @@ module.exports = {
   },
   production: {
     client: "sqlite3",
-    connection: { filename: "./database/db_school_production.db3" },
+    connection: { filename: "./database/db_school.db3" },
     useNullAsDefault: true,
     migrations: {
       directory: "./database/migrations"
