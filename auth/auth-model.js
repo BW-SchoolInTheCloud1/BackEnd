@@ -30,14 +30,20 @@ function findBy(filter) {
 
 function findTypeBy(filter, type) {
   return db(type)
+    .select("*")
     .where(filter)
     .first();
 }
 
-function findTypeById(id, type) {
-  return db(type)
+async function findTypeById(id, type) {
+  console.log(id, type);
+
+  user = await db(type)
+    .select("*")
     .where({ id })
     .first();
+  console.log("user", user);
+  return user;
 }
 
 async function addUser(user) {

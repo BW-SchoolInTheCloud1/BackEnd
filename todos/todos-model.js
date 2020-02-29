@@ -4,9 +4,9 @@ module.exports = {
   addTodo,
   find,
   findBy,
-  findById
-  // update,
-  // remove
+  findById,
+  update,
+  del
 };
 
 function find() {
@@ -23,14 +23,30 @@ function findBy(filter) {
   return db("todos").where(filter);
 }
 
-async function addTodo(todo, admin_id, volunteer_id) {
+async function addTodo(todo) {
   let newTodo = {
     title: todo.title,
     description: todo.description,
     is_completed: todo.is_completed || false,
-    admin_id,
-    volunteer_id
+    admin_id: todo.admin_id,
+    volunteer_id: volunteer_id
   };
   const [id] = await db("todos").insert(newTodo);
   return findById(id);
+}
+
+async function update(id, changes) {
+  await db("todos")
+    .where({ id })
+    .update(changes);
+
+  return findById(id);
+}
+
+async function del(id) {
+  const todo = await db("todos")
+    .where({ id })
+    .del();
+
+  return todo;
 }
