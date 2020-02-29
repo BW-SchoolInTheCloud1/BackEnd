@@ -27,20 +27,26 @@ router.post("/register", validateUser, async (req, res, next) => {
     // create variables to save new user info for response
     let roleInfo, userRole;
     // check new users role - add additional info for volunteers
-    if (newUser.role === "volunteer") {
-      roleInfo = {
-        user_id: newUser.id,
-        availability: req.body.availability,
-        country: req.body.country
-      };
-      userRole = await Users.addVolunteer(roleInfo);
-    } else if (newUser.role === "admin") {
-      // add user_id to respective role table for foreign key requirement
-      roleInfo = { user_id: newUser.id };
-      userRole = await Users.addAdmin(roleInfo);
-    } else if (newUser.role === "student") {
-      roleInfo = { user_id: newUser.id };
-      userRole = await Users.addStudent(roleInfo);
+    switch (newUser.role) {
+      case "volunteer":
+        roleInfo = {
+          user_id: newUser.id,
+          availability: req.body.availability,
+          country: req.body.country
+        };
+        userRole = await Users.addVolunteer(roleInfo);
+        break;
+      case "admin":
+        // add user_id to respective role table for foreign key requirement
+        roleInfo = { user_id: newUser.id };
+        userRole = await Users.addAdmin(roleInfo);
+        break;
+      case "student":
+        roleInfo = { user_id: newUser.id };
+        userRole = await Users.addStudent(roleInfo);
+        break;
+      default:
+        next("auth router did not find a valid user type");
     }
     console.log("auth router userRole", userRole);
     const token = genToken(newUser);
