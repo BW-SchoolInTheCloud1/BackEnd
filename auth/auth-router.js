@@ -10,13 +10,13 @@ const secret = process.env.JWT_SECRET || "secret secret, i got a secret";
 
 // user registration
 router.post("/register", validateUser, async (req, res, next) => {
-  let { email, password, first_name, last_name, role } = req.body;
+  let { email, password, firstName, lastName, role } = req.body;
   const hash = bcrypt.hashSync(password, 8);
   let userObj = {
     email: email,
     password: hash,
-    first_name: first_name,
-    last_name: last_name,
+    first_name: firstName,
+    last_name: lastName,
     role: role
   };
 
@@ -70,6 +70,7 @@ router.post("/login", async (req, res, next) => {
         if (user && bcrypt.compareSync(password, user.password)) {
           Users.findTypeById(user.id, user.role)
             .then(roleInfo => {
+              console.log("login roleInfo", roleInfo);
               const token = genToken(user);
               res
                 .status(200)

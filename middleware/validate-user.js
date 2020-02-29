@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
       next("A valid email address is required");
     } else if (!password || !password.length > 4) {
       next("A valid password with at least 5 characters is required");
-    } else if (!first_name || !last_name) {
+    } else if (!firstName || !lastName) {
       next("First and Last name are required");
     } else if (
       String(
