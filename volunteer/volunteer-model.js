@@ -9,7 +9,17 @@ module.exports = {
 };
 
 function find() {
-  return db("volunteer");
+  return db("volunteer as v")
+    .join("users as u", "v.user_id", "u.id")
+    .select(
+      "v.id as volunteer_id",
+      "u.id as user_id",
+      "u.email",
+      "u.first_name as firstName",
+      "u.last_name as lastName",
+      "v.availability",
+      "v.country"
+    );
 }
 
 function findBy(filter) {
@@ -17,8 +27,18 @@ function findBy(filter) {
 }
 
 function findById(id) {
-  return db("volunteer")
-    .where({ id })
+  return db("volunteer as v")
+    .join("users as u", "u.id", "v.user_id")
+    .where({ volunteer_id: id })
+    .select(
+      "v.id as volunteer_id",
+      "u.id as user_id",
+      "u.email",
+      "u.first_name as firstName",
+      "u.last_name as lastName",
+      "v.availability",
+      "v.country"
+    )
     .first();
 }
 
