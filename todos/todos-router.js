@@ -35,7 +35,9 @@ router.delete("/:id", async (req, res) => {
     const removed = await Todos.del(id);
     res.status(200).json(removed);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: `Removed ${removed} todo from the database`
+    });
   }
 });
 
