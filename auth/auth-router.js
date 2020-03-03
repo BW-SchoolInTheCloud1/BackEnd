@@ -79,35 +79,35 @@ router.post("/register", validateUser, async (req, res, next) => {
       let userRole = {};
       let newUserId = newUser.id;
       // check new users role - add additional info for volunteers
-      switch (newUser.role) {
-        case "volunteer":
-          roleInfo = {
-            user_id: newUserId,
-            availability: req.body.availability,
-            country: req.body.country
-          };
-          // userRole = await Users.addVolunteer(roleInfo);
-          break;
-        case "admin":
-          // add user_id to respective role table for foreign key requirement
-          roleInfo = { user_id: newUserId };
-          Users.addAdmin(roleInfo).then(role => {
-            const token = genToken(newUser);
-            res
-              .status(201)
-              .json({ createdUser: newUser, userRole: role, token: token });
-          });
-          break;
-        case "student":
-          roleInfo = { user_id: newUserId };
-          // userRole = await Users.addStudent(roleInfo);
-          break;
-        default:
-          next("auth router did not find a valid user type");
-      }
+      // switch (newUser.role) {
+      //   case "volunteer":
+      //     roleInfo = {
+      //       user_id: newUserId,
+      //       availability: req.body.availability,
+      //       country: req.body.country
+      //     };
+      //     // userRole = await Users.addVolunteer(roleInfo);
+      //     break;
+      //   case "admin":
+      //     // add user_id to respective role table for foreign key requirement
+      //     roleInfo = { user_id: newUserId };
+      //     Users.addAdmin(roleInfo).then(role => {
+      //       const token = genToken(newUser);
+      //       res
+      //         .status(201)
+      //         .json({ createdUser: newUser, userRole: role, token: token });
+      //     });
+      //     break;
+      //   case "student":
+      //     roleInfo = { user_id: newUserId };
+      //     // userRole = await Users.addStudent(roleInfo);
+      //     break;
+      //   default:
+      //     next("auth router did not find a valid user type");
+      // }
       console.log("auth router userRole", userRole);
-      // const token = genToken(newUser);
-      // res.status(201).json({ createdUser: newUser, token: token });
+      const token = genToken(newUser);
+      res.status(201).json({ createdUser: newUser, token: token });
     })
     .catch(error => {
       res.status(501).json(error.message);
