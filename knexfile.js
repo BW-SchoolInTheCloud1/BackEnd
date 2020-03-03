@@ -30,8 +30,8 @@ module.exports = {
     connection: process.env.DATABASE_URL,
     useNullAsDefault: true,
     migrations: {
-      directory: __dirname + "./database/migrations"
+      directory: "./database/migrations"
     },
-    seeds: { directory: __dirname + "./database/seeds" }
+    seeds: { directory: "./database/seeds" }
   }
 };
