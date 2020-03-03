@@ -59,7 +59,7 @@ async function addUser(user) {
 async function addAdmin(user) {
   console.log(user);
   const [id] = await db("admin")
-    .insert(user)
+    .insert(user, "id")
     .returning("id");
 
   console.log("id", id);
@@ -87,7 +87,7 @@ async function addAdmin(user) {
 async function addVolunteer(user) {
   console.log(user);
   const [id] = await db("volunteer")
-    .insert(user)
+    .insert(user, "id")
     .returning("id");
 
   console.log("id", id);
@@ -100,7 +100,7 @@ async function addVolunteer(user) {
 }
 
 async function addStudent(user) {
-  console.log(user);
+  console.log(user, "id");
   const [id] = await db("student")
     .insert(user)
     .returning("id");
