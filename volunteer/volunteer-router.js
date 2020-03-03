@@ -69,7 +69,7 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", (req, res, next) => {
   const { id } = req.params;
   Volunteers.findById(id)
     .then(volunteer => {

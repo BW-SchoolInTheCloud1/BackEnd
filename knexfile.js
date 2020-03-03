@@ -26,12 +26,12 @@ module.exports = {
     seeds: { directory: "./database/seeds" }
   },
   production: {
-    client: "sqlite3",
-    connection: { filename: "./database/db_school.db3" },
+    client: "pg",
+    connection: process.env.DATABASE_URL,
     useNullAsDefault: true,
     migrations: {
-      directory: "./database/migrations"
+      directory: __dirname + "./database/migrations"
     },
-    seeds: { directory: "./database/seeds" }
+    seeds: { directory: __dirname + "./database/seeds" }
   }
 };
