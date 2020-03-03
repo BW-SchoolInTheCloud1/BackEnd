@@ -59,18 +59,18 @@ async function addUser(user) {
 async function addAdmin(user) {
   console.log(user);
   const [id] = await db("admin")
-    .insert(user, "id")
+    .insert(user, "user_id")
     .returning("id");
 
-  return id;
+  // return id;
 
   console.log("id", id);
-  // const admin = await db("admin")
-  //   .select("*")
-  //   .where({ id })
-  //   .first();
+  const admin = await db("admin")
+    .select("*")
+    .where({ id })
+    .first();
 
-  // return admin;
+  return admin;
 }
 
 // function addAdmin(user) {
