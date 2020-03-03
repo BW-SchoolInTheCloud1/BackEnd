@@ -27,11 +27,12 @@ router.post("/register", validateUser, async (req, res, next) => {
     // create variables to save new user info for response
     // let roleInfo = {};
     let userRole = {};
+    let newUserId = newUser.id;
     // check new users role - add additional info for volunteers
     switch (newUser.role) {
       case "volunteer":
         roleInfo = {
-          user_id: newUser.id,
+          user_id: newUserId,
           availability: req.body.availability,
           country: req.body.country
         };
@@ -39,11 +40,11 @@ router.post("/register", validateUser, async (req, res, next) => {
         break;
       case "admin":
         // add user_id to respective role table for foreign key requirement
-        roleInfo = { user_id: newUser.id };
+        roleInfo = { user_id: newUserId };
         userRole = await Users.addAdmin(roleInfo);
         break;
       case "student":
-        roleInfo = { user_id: newUser.id };
+        roleInfo = { user_id: newUserId };
         userRole = await Users.addStudent(roleInfo);
         break;
       default:
