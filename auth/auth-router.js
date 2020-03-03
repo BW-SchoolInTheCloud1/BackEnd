@@ -52,9 +52,7 @@ router.post("/register", validateUser, async (req, res, next) => {
     }
     console.log("auth router userRole", userRole);
     const token = genToken(newUser);
-    res
-      .status(201)
-      .json({ createdUser: newUser, roleId: userRole, token: token });
+    res.status(201).json({ createdUser: newUser, token: token });
   } catch (error) {
     res.status(500).json(error.message);
   }
