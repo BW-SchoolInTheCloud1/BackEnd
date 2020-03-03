@@ -62,13 +62,15 @@ async function addAdmin(user) {
     .insert(user, "id")
     .returning("id");
 
-  console.log("id", id);
-  const admin = await db("admin")
-    .select("*")
-    .where({ id })
-    .first();
+  return id;
 
-  return admin;
+  console.log("id", id);
+  // const admin = await db("admin")
+  //   .select("*")
+  //   .where({ id })
+  //   .first();
+
+  // return admin;
 }
 
 // function addAdmin(user) {
@@ -100,9 +102,9 @@ async function addVolunteer(user) {
 }
 
 async function addStudent(user) {
-  console.log(user, "id");
+  console.log(user);
   const [id] = await db("student")
-    .insert(user)
+    .insert(user, "id")
     .returning("id");
 
   console.log("id", id);
