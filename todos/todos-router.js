@@ -10,7 +10,12 @@ router.get("/", (req, res) => {
       res.status(200).json(todos);
     })
     .catch(error => {
-      res.status(500).json({ message: error.message });
+      res
+        .status(500)
+        .json({
+          errorMsg: error.message,
+          message: "There are no Todos, go add some!"
+        });
     });
 });
 
@@ -25,7 +30,12 @@ router.get("/:id", async (req, res) => {
     }
     res.status(200).json(todo[0]);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res
+      .status(500)
+      .json({
+        errorMsg: error.message,
+        message: `There is no todo with id: ${id} to delete`
+      });
   }
 });
 
