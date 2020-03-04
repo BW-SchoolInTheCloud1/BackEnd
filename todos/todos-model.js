@@ -31,8 +31,8 @@ async function addTodo(todo) {
     admin_id: todo.admin_id,
     volunteer_id: todo.volunteer_id
   };
-  const [id] = await db("todos").insert(newTodo);
-  return findById(id);
+  const [id] = await db("todos").insert(newTodo, "id");
+  return await findById(id);
 }
 
 async function update(id, changes) {
