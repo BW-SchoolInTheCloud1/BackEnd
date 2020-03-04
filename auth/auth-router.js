@@ -56,7 +56,9 @@ router.post("/register", registerCheck, async (req, res, next) => {
       .status(201)
       .json({ createdUser: newUser, roleId: userRole, token: token });
   } catch (error) {
-    res.status(501).json(error);
+    res
+      .status(500)
+      .json({ errorMsg: error, message: "Was not able to register user" });
   }
 });
 
@@ -80,7 +82,9 @@ router.post("/login", async (req, res, next) => {
         res.status(401).json({ message: "Invalid Login Credentials" });
       }
     } catch (error) {
-      res.status(500).json(error.message);
+      res
+        .status(500)
+        .json({ errorMsg: error, message: "Was not able to register user" });
     }
   }
 });
