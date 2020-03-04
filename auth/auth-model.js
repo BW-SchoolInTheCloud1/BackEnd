@@ -58,9 +58,7 @@ async function addUser(user) {
 
 async function addAdmin(user) {
   console.log(user);
-  const [id] = await db("admin")
-    .insert(user, "user_id")
-    .returning("id");
+  const [id] = await db("admin").insert(user, "id");
 
   // return id;
 
