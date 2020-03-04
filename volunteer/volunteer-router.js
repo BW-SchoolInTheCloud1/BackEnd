@@ -34,7 +34,7 @@ router.get("/:id", (req, res, next) => {
     .catch(error =>
       res
         .status(500)
-        .json({ errorMsg: error, message: `No Todo with the id of ${id}` })
+        .json({ errorMsg: error, message: `No volunteer with the id of ${id}` })
     );
 });
 
