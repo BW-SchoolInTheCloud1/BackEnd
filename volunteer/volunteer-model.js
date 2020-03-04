@@ -26,19 +26,19 @@ function findBy(filter) {
   return db("volunteer").where(filter);
 }
 
-function findById(id) {
-  return db("volunteer as v")
-    .join("users as u", "v.user_id", "=", "u.id")
-    .select(
-      "v.id as volunteer_id",
-      "u.id as user_id",
-      "u.email",
-      "u.first_name as firstName",
-      "u.last_name as lastName",
-      "v.availability",
-      "v.country"
-    )
-    .where({ volunteer_id: id })
+async function findById(id) {
+  return await db("volunteer as v")
+    // .join("users as u", "v.user_id", "=", "u.id")
+    // .select(
+    //   "v.id as volunteer_id",
+    //   "u.id as user_id",
+    //   "u.email",
+    //   "u.first_name as firstName",
+    //   "u.last_name as lastName",
+    //   "v.availability",
+    //   "v.country"
+    // )
+    .where({ id })
     .first();
 }
 
