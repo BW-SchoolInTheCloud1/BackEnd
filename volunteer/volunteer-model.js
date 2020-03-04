@@ -28,8 +28,7 @@ function findBy(filter) {
 
 function findById(id) {
   return db("volunteer as v")
-    .join("users as u", "v.user_id", "u.id")
-    .where({ volunteer_id: id })
+    .join("users as u", "v.user_id", "=", "u.id")
     .select(
       "v.id as volunteer_id",
       "u.id as user_id",
@@ -39,6 +38,7 @@ function findById(id) {
       "v.availability",
       "v.country"
     )
+    .where({ volunteer_id: id })
     .first();
 }
 
