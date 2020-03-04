@@ -4,7 +4,7 @@ exports.seed = function(knex) {
     .then(function() {
       return knex("student").insert([
         {
-          user_id: 1
+          user_id: 3
         }
       ]);
     });
