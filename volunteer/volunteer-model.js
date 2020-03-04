@@ -28,17 +28,17 @@ function findBy(filter) {
 
 async function findById(id) {
   return await db("volunteer as v")
-    // .join("users as u", "v.user_id", "=", "u.id")
-    // .select(
-    //   "v.id as volunteer_id",
-    //   "u.id as user_id",
-    //   "u.email",
-    //   "u.first_name as firstName",
-    //   "u.last_name as lastName",
-    //   "v.availability",
-    //   "v.country"
-    // )
-    .where({ id })
+    .where("v.id", id)
+    .join("users as u", "v.user_id", "=", "u.id")
+    .select(
+      "v.id as volunteer_id",
+      "u.id as user_id",
+      "u.email",
+      "u.first_name as firstName",
+      "u.last_name as lastName",
+      "v.availability",
+      "v.country"
+    )
     .first();
 }
 
