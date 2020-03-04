@@ -9,7 +9,7 @@ const secret = process.env.JWT_SECRET || "secret secret, i got a secret";
 // /api/auth
 
 // user registration
-router.post("/register", validateUser, async (req, res, next) => {
+router.post("/register", registerCheck, async (req, res, next) => {
   let { email, password, firstName, lastName, role } = req.body;
   const hash = bcrypt.hashSync(password, 8);
   let userObj = {
@@ -23,14 +23,16 @@ router.post("/register", validateUser, async (req, res, next) => {
   try {
     // add new user to the db
     let newUser = await Users.addUser(userObj);
-    console.log(newUser);
+    console.log("auth-router newUser", newUser);
     // create variables to save new user info for response
-    let roleInfo, userRole;
+    let roleInfo = {};
+    let userRole = {};
+    let newUserId = newUser.id;
     // check new users role - add additional info for volunteers
     switch (newUser.role) {
       case "volunteer":
         roleInfo = {
-          user_id: newUser.id,
+          user_id: newUserId,
           availability: req.body.availability,
           country: req.body.country
         };
@@ -38,11 +40,11 @@ router.post("/register", validateUser, async (req, res, next) => {
         break;
       case "admin":
         // add user_id to respective role table for foreign key requirement
-        roleInfo = { user_id: newUser.id };
+        roleInfo = { user_id: newUserId };
         userRole = await Users.addAdmin(roleInfo);
         break;
       case "student":
-        roleInfo = { user_id: newUser.id };
+        roleInfo = { user_id: newUserId };
         userRole = await Users.addStudent(roleInfo);
         break;
       default:
@@ -54,7 +56,7 @@ router.post("/register", validateUser, async (req, res, next) => {
       .status(201)
       .json({ createdUser: newUser, roleId: userRole, token: token });
   } catch (error) {
-    res.status(500).json(error.message);
+    res.status(501).json(error);
   }
 });
 
@@ -66,6 +68,7 @@ router.post("/login", async (req, res, next) => {
     let { email, password } = req.body;
 
     try {
+      // find user by email
       const user = await Users.findBy({ email });
 
       if (user && bcrypt.compareSync(password, user.password)) {
@@ -82,7 +85,7 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-function validateUser(req, res, next) {
+function registerCheck(req, res, next) {
   if (!req.body) {
     return next("missing user data");
   } else {
