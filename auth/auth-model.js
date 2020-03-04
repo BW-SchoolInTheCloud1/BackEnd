@@ -47,9 +47,9 @@ async function findTypeById(id, type) {
 }
 
 async function addUser(user) {
-  const [id] = await db("users").insert(user);
-
-  return findById(id);
+  const [id] = await db("users").insert(user, "id");
+  console.log("auth-model, addUser", id);
+  return await findById(id);
 }
 
 // function addUser(user) {
