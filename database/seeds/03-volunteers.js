@@ -6,7 +6,7 @@ exports.seed = function(knex) {
         {
           availability: "Monday - Thursday 8am - 2pm",
           country: "USA",
-          user_id: 1
+          user_id: 2
         }
       ]);
     });
