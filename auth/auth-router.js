@@ -52,69 +52,13 @@ router.post("/register", registerCheck, async (req, res, next) => {
     }
     console.log("auth router userRole", userRole);
     const token = genToken(newUser);
-    res.status(201).json({ createdUser: newUser, token: token });
+    res
+      .status(201)
+      .json({ createdUser: newUser, roleId: userRole, token: token });
   } catch (error) {
     res.status(501).json(error);
   }
 });
-
-// user registration
-// router.post("/register", registerCheck, async (req, res, next) => {
-//   let { email, password, firstName, lastName, role } = req.body;
-//   const hash = bcrypt.hashSync(password, 8);
-//   let userObj = {
-//     email: email,
-//     password: hash,
-//     first_name: firstName,
-//     last_name: lastName,
-//     role: role
-//   };
-// res.status(200).send("hi");
-
-// add new user to the db
-// Users.addUser(userObj)
-// .then(newUser => {
-// console.log(newUser);
-// create variables to save new user info for response
-// let roleInfo = {};
-// let userRole = {};
-// let newUserId = newUser.id;
-// check new users role - add additional info for volunteers
-// switch (newUser.role) {
-//   case "volunteer":
-//     roleInfo = {
-//       user_id: newUserId,
-//       availability: req.body.availability,
-//       country: req.body.country
-//     };
-//     // userRole = await Users.addVolunteer(roleInfo);
-//     break;
-//   case "admin":
-//     // add user_id to respective role table for foreign key requirement
-//     roleInfo = { user_id: newUserId };
-//     Users.addAdmin(roleInfo).then(role => {
-//       const token = genToken(newUser);
-//       res
-//         .status(201)
-//         .json({ createdUser: newUser, userRole: role, token: token });
-//     });
-//     break;
-//   case "student":
-//     roleInfo = { user_id: newUserId };
-//     // userRole = await Users.addStudent(roleInfo);
-//     break;
-//   default:
-//     next("auth router did not find a valid user type");
-// }
-// console.log("auth router userRole", userRole);
-// const token = genToken(newUser);
-// res.status(201).json({ createdUser: newUser, token: token });
-//   res.status(200).send("hi");
-// })
-// .catch(error => {
-// res.status(501).json(error.message);
-// });
-// });
 
 // user login
 router.post("/login", async (req, res, next) => {
@@ -124,6 +68,7 @@ router.post("/login", async (req, res, next) => {
     let { email, password } = req.body;
 
     try {
+      // find user by email
       const user = await Users.findBy({ email });
 
       if (user && bcrypt.compareSync(password, user.password)) {

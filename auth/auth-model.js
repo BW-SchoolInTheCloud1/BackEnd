@@ -36,33 +36,25 @@ function findTypeBy(filter, type) {
 }
 
 async function findTypeById(id, type) {
-  console.log(id, type);
-
   user = await db(type)
     .select("*")
     .where({ id })
     .first();
   console.log("user", user);
+
   return user;
 }
 
 async function addUser(user) {
   const [id] = await db("users").insert(user, "id");
   console.log("auth-model, addUser", id);
+
   return await findById(id);
 }
-
-// function addUser(user) {
-//   return db("users").insert(user);
-// }
 
 async function addAdmin(user) {
   console.log(user);
   const [id] = await db("admin").insert(user, "id");
-
-  // return id;
-
-  console.log("id", id);
   const admin = await db("admin")
     .select("*")
     .where({ id })
@@ -70,19 +62,6 @@ async function addAdmin(user) {
 
   return admin;
 }
-
-// function addAdmin(user) {
-//   console.log(user);
-//   return db("admin")
-//     .insert(user)
-//     .returning(["id"]);
-
-//   console.log("id", id);
-
-//   return db("admin")
-//     .where({ id })
-//     .first();
-// }
 
 async function addVolunteer(user) {
   console.log(user);
