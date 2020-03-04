@@ -26,7 +26,7 @@ router.get("/:id", (req, res, next) => {
   Volunteers.findById(id)
     .then(volunteer => {
       if (!volunteer) {
-        next(`No Todo with the id of ${id}`);
+        next(`No volunteer with the id of ${id}`);
       } else {
         res.status(200).json(volunteer);
       }
@@ -49,12 +49,10 @@ router.get("/:id/todos", (req, res, next) => {
       }
     })
     .catch(error =>
-      res
-        .status(500)
-        .json({
-          errorMsg: error,
-          message: `There are no todos for volunteer_id: ${id}`
-        })
+      res.status(500).json({
+        errorMsg: error,
+        message: `There are no todos for volunteer_id: ${id}`
+      })
     );
 });
 
@@ -79,12 +77,10 @@ router.put("/:id", async (req, res, next) => {
         }
       })
       .catch(error => {
-        res
-          .status(500)
-          .json({
-            errorMsg: error,
-            message: `There is no volunteer with the id of ${id} to update`
-          });
+        res.status(500).json({
+          errorMsg: error,
+          message: `There is no volunteer with the id of ${id} to update`
+        });
       });
   }
 });
@@ -105,12 +101,10 @@ router.delete("/:id", (req, res, next) => {
       }
     })
     .catch(error =>
-      res
-        .status(500)
-        .json({
-          errorMsg: error,
-          message: `Removed ${removed} volunteer from the database`
-        })
+      res.status(500).json({
+        errorMsg: error,
+        message: `Removed ${removed} volunteer from the database`
+      })
     );
 });
 
