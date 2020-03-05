@@ -84,7 +84,7 @@ router.post("/login", async (req, res, next) => {
     } catch (error) {
       res
         .status(500)
-        .json({ errorMsg: error, message: "Was not able to register user" });
+        .json({ errorMsg: error, message: "Was not able to login user" });
     }
   }
 });
