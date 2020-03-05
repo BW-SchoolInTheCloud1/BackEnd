@@ -21,7 +21,7 @@ router.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const todo = await Todos.findBy({ id });
-    if (!todo) {
+    if (!todo.length) {
       res.status(404).json({ message: `There is no todo with id: ${id}` });
     }
     res.status(200).json(todo);
