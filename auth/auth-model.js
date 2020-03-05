@@ -36,13 +36,23 @@ function findTypeBy(filter, type) {
 }
 
 async function findTypeById(id, type) {
-  user = await db(type)
-    .select("*")
-    .where({ id })
+  console.log("id, type", id, type);
+
+  user = await db("users")
+    .join(type, "users.id", "=", `${type}.user_id`)
+    .where("users.id", id)
+    .select(`${type}.id as id`)
     .first();
   console.log("user", user);
-
   return user;
+
+  // user = await db(type)
+  //   .select("*")
+  //   .where({ id })
+  //   .first();
+  // console.log("user", user);
+
+  // return user;
 }
 
 async function addUser(user) {
@@ -59,7 +69,7 @@ async function addAdmin(user) {
     .select("*")
     .where({ id })
     .first();
-
+  console.log("auth-model: admin", admin);
   return admin;
 }
 
