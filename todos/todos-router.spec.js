@@ -12,7 +12,7 @@ describe("todos router /api/todos", () => {
     let res = await request(server)
       .post("/api/auth/register")
       .send({
-        email: "tom@tom.com",
+        email: "f@f.com",
         password: "pass",
         firstName: "Tom",
         lastName: "Tommerson",
@@ -48,7 +48,7 @@ describe("todos router /api/todos", () => {
   });
 
   test("GET by id /:id with token and valid todo id returns status 200", async () => {
-    // await db.seed.run();
+    await db.seed.run();
     let res = await request(server)
       .get(`/api/todos/1`)
       .set({ Authorization: token });

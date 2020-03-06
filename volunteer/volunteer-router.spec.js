@@ -12,7 +12,7 @@ describe("volunteer router /api/volunteer", () => {
     let res = await request(server)
       .post("/api/auth/register")
       .send({
-        email: "tom@tom.com",
+        email: "c@c.com",
         password: "pass",
         firstName: "Tom",
         lastName: "Tommerson",
@@ -21,7 +21,7 @@ describe("volunteer router /api/volunteer", () => {
     let resVol = await request(server)
       .post("/api/auth/register")
       .send({
-        email: "vol@volunteer.com",
+        email: "e@e.com",
         password: "pass",
         firstName: "Tom",
         lastName: "Tommerson",
@@ -31,8 +31,8 @@ describe("volunteer router /api/volunteer", () => {
       });
 
     token = res.body.token;
-    // id = res.body.roleId.id;
-    // idVol = resVol.body.roleId.id;
+    id = res.body.roleId.id;
+    idVol = resVol.body.roleId.id;
   });
 
   it("GET RQ with token in header returns status 200", async () => {
@@ -50,7 +50,7 @@ describe("volunteer router /api/volunteer", () => {
   test("GET by id /:id with token and valid volunteer id returns status 200", async () => {
     // await db.seed.run();
     let res = await request(server)
-      .get(`/api/volunteer/2`)
+      .get(`/api/volunteer/${idVol}`)
       .set({ Authorization: token });
 
     expect(res.status).toBe(200);

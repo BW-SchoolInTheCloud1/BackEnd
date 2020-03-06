@@ -12,7 +12,7 @@ describe("admin router /api/admin", () => {
     let res = await request(server)
       .post("/api/auth/register")
       .send({
-        email: "tom@tom.com",
+        email: "a@admin.com",
         password: "pass",
         firstName: "Tom",
         lastName: "Tommerson",
@@ -21,7 +21,7 @@ describe("admin router /api/admin", () => {
     let resVol = await request(server)
       .post("/api/auth/register")
       .send({
-        email: "vol@volunteer.com",
+        email: "b@volunteer.com",
         password: "pass",
         firstName: "Tom",
         lastName: "Tommerson",
