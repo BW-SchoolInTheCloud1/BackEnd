@@ -2,7 +2,7 @@ const request = require("supertest");
 const db = require("../database/dbConfig");
 const server = require("../api/server");
 
-describe("admin router /api/admin", () => {
+describe("volunteer router /api/volunteer", () => {
   let id, idVol, token;
   beforeAll(async () => {
     // await db.seed.run();
@@ -31,38 +31,29 @@ describe("admin router /api/admin", () => {
       });
 
     token = res.body.token;
-    id = res.body.roleId.id;
-    idVol = resVol.body.roleId.id;
-  });
-
-  beforeEach(async () => {
-    await db.seed.run();
+    // id = res.body.roleId.id;
+    // idVol = resVol.body.roleId.id;
   });
 
   it("GET RQ with token in header returns status 200", async () => {
     let res = await request(server)
-      .get(`/api/admin/${id}/todos`)
+      .get(`/api/volunteer`)
       .set({ Authorization: token });
     expect(res.status).toBe(200);
   });
 
   it("GET RQ - No token returns status 400", async () => {
-    let res = await request(server).get(`/api/admin/${id}/todos`);
+    let res = await request(server).get(`/api/volunteer`);
     expect(res.status).toBe(400);
   });
 
-  test("POST todo returns status 201", async () => {
+  test("GET by id /:id with token and valid volunteer id returns status 200", async () => {
     // await db.seed.run();
     let res = await request(server)
-      .post(`/api/admin/${id}/todos`)
-      .set({ Authorization: token })
-      .send({
-        title: "Pass all tests",
-        description: "npm run test",
-        volunteer_id: idVol
-      });
+      .get(`/api/volunteer/2`)
+      .set({ Authorization: token });
 
-    expect(res.status).toBe(201);
+    expect(res.status).toBe(200);
   });
 
   afterAll(async () => {

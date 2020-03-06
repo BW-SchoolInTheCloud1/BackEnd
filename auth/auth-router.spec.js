@@ -63,4 +63,8 @@ describe("auth-router POST RQ /login", () => {
       .send({ email: "wrong@wrong.com", password: "wrong" });
     expect(res.status).toBe(401);
   });
+
+  afterAll(async () => {
+    await db.destroy();
+  });
 });

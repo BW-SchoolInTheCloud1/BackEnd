@@ -2,7 +2,7 @@ const request = require("supertest");
 const db = require("../database/dbConfig");
 const server = require("../api/server");
 
-describe("admin router /api/admin", () => {
+describe("todos router /api/todos", () => {
   let id, idVol, token;
   beforeAll(async () => {
     // await db.seed.run();
@@ -18,51 +18,42 @@ describe("admin router /api/admin", () => {
         lastName: "Tommerson",
         role: "admin"
       });
-    let resVol = await request(server)
-      .post("/api/auth/register")
-      .send({
-        email: "vol@volunteer.com",
-        password: "pass",
-        firstName: "Tom",
-        lastName: "Tommerson",
-        role: "volunteer",
-        availability: "Mondays",
-        country: "usa"
-      });
+    // let resVol = await request(server)
+    //   .post("/api/auth/register")
+    //   .send({
+    //     email: "vol@volunteer.com",
+    //     password: "pass",
+    //     firstName: "Tom",
+    //     lastName: "Tommerson",
+    //     role: "volunteer",
+    //     availability: "Mondays",
+    //     country: "usa"
+    //   });
 
     token = res.body.token;
-    id = res.body.roleId.id;
-    idVol = resVol.body.roleId.id;
-  });
-
-  beforeEach(async () => {
-    await db.seed.run();
+    // id = res.body.roleId.id;
+    // idVol = resVol.body.roleId.id;
   });
 
   it("GET RQ with token in header returns status 200", async () => {
     let res = await request(server)
-      .get(`/api/admin/${id}/todos`)
+      .get(`/api/todos`)
       .set({ Authorization: token });
     expect(res.status).toBe(200);
   });
 
   it("GET RQ - No token returns status 400", async () => {
-    let res = await request(server).get(`/api/admin/${id}/todos`);
+    let res = await request(server).get(`/api/todos`);
     expect(res.status).toBe(400);
   });
 
-  test("POST todo returns status 201", async () => {
+  test("GET by id /:id with token and valid todo id returns status 200", async () => {
     // await db.seed.run();
     let res = await request(server)
-      .post(`/api/admin/${id}/todos`)
-      .set({ Authorization: token })
-      .send({
-        title: "Pass all tests",
-        description: "npm run test",
-        volunteer_id: idVol
-      });
+      .get(`/api/todos/1`)
+      .set({ Authorization: token });
 
-    expect(res.status).toBe(201);
+    expect(res.status).toBe(200);
   });
 
   afterAll(async () => {
