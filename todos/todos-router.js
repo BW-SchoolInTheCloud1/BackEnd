@@ -6,7 +6,6 @@ const Todos = require("./todos-model");
 router.get("/", (req, res) => {
   Todos.find()
     .then(todos => {
-      console.log(todos);
       res.status(200).json(todos);
     })
     .catch(error => {
@@ -14,19 +13,21 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", (req, res) => {
   const { id } = req.params;
-  try {
-    const todo = await Todos.findBy({ id });
-    if (!todo.length) {
-      res
-        .status(404)
-        .json({ message: `There is no todo with id: ${id} to delete` });
-    }
-    res.status(200).json(todo[0]);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+  Todos.findById(id)
+    .then(todo => {
+      if (todo) {
+        res.status(200).json(todo);
+      } else {
+        res
+          .status(404)
+          .json({ message: `There is no todo with id: ${id} to delete` });
+      }
+    })
+    .catch(error => {
+      res.status(500).json({ message: error.message });
+    });
 });
 
 router.delete("/:id", async (req, res) => {

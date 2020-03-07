@@ -23,7 +23,6 @@ router.post("/register", registerCheck, async (req, res, next) => {
   try {
     // add new user to the db
     let newUser = await Users.addUser(userObj);
-    console.log("auth-router newUser", newUser);
     // create variables to save new user info for response
     let roleInfo = {};
     let userRole = {};
@@ -50,7 +49,6 @@ router.post("/register", registerCheck, async (req, res, next) => {
       default:
         next("auth router did not find a valid user type");
     }
-    console.log("auth router userRole", userRole);
     const token = genToken(newUser);
     res
       .status(201)
@@ -72,8 +70,8 @@ router.post("/login", async (req, res, next) => {
       const user = await Users.findBy({ email });
 
       if (user && bcrypt.compareSync(password, user.password)) {
+        // if the password is correct lookup users roleInfo for res
         const roleInfo = await Users.findTypeById(user.id, user.role);
-        console.log("auth-routher.js login roleInfo:", roleInfo);
         const token = genToken(user);
         res.status(200).json({ user: user, roleId: roleInfo, token: token });
       } else {

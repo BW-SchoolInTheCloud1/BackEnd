@@ -3,6 +3,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 
 // Middleware
+const adminRoleCheck = require("../middleware/admin-role-check-middlware");
 const authenticate = require("../middleware/authenticate-middleware");
 
 // Routers

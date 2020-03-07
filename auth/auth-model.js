@@ -40,7 +40,6 @@ async function findTypeById(id, type) {
     .select("*")
     .where({ id })
     .first();
-  console.log("user", user);
 
   return user;
 }
@@ -64,12 +63,10 @@ async function addAdmin(user) {
 }
 
 async function addVolunteer(user) {
-  console.log(user);
   const [id] = await db("volunteer")
     .insert(user, "id")
     .returning("id");
 
-  console.log("id", id);
   const volunteer = await db("volunteer")
     .select("*")
     .where({ id })
@@ -79,12 +76,9 @@ async function addVolunteer(user) {
 }
 
 async function addStudent(user) {
-  console.log(user);
   const [id] = await db("student")
     .insert(user, "id")
     .returning("id");
-
-  console.log("id", id);
 
   const student = await db("student")
     .select("*")
